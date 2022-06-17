@@ -25,7 +25,8 @@ namespace Manager
             {
                 //Ожидание 10 секунд
                 await Task.Delay(10000);
-                CreateNewWatchThread("ClassLibrary1.dll", "ClassLibrary1.Class1", "StartWatch");             
+                //Запуск dll с продолжительностью дейсвия 10 секунд
+                CreateNewWatchThread("ClassLibrary1.dll", "ClassLibrary1.Class1", "StartWatch" , 10);             
                 //Ожидание 10 секунд
                 await Task.Delay(10000);
                 CreateNewWatchThread("ClassLibrary2.dll", "ClassLibrary2.Class2", "StartWatch");
@@ -50,7 +51,7 @@ namespace Manager
         /// <param name="nameDLL">название DLL</param>
         /// <param name="nameClass">название класса</param>
         /// <param name="nameMethod">название метода, который будет запущен</param>
-        private void CreateNewWatchThread(string nameDLL, string nameClass, string nameMethod = "StartWatch")
+        private void CreateNewWatchThread(string nameDLL, string nameClass, string nameMethod = "StartWatch", int countSeconds = 20)
         {
             //Создание лога на подключение потока
             Logger.CreateLog(FILE_NAME, string.Format("Запуск модуля {0}", nameDLL), Logger.TypeLog.Start);
@@ -58,7 +59,8 @@ namespace Manager
             myNewThread.Start();
             _threads.Add(myNewThread);
 
-            System.Timers.Timer timer = new System.Timers.Timer(20000);
+            //Запуск таймера с временм дейсвия countSeconds
+            System.Timers.Timer timer = new System.Timers.Timer(TimeSpan.FromSeconds(countSeconds).TotalMilliseconds);
             timer.Elapsed += (sender, e) =>
             {
                 _threads.Remove(myNewThread);

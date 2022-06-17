@@ -5,7 +5,7 @@
         const string FILE_NAME = "test.txt";
 
         /// <summary>
-        /// Запуск записи в файл информации по классу (до 10 секунд)
+        /// Запуск записи в файл информации по классу
         /// </summary>
         public void StartWatch()
         {
